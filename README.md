@@ -76,11 +76,11 @@ public void UpdateNameWithCharacter(char: character)
 
 对于 ```UpdateNameWithCharacter``` 方法，需要仔细考虑测试要进行的工作，并为它们提供名称。名称应清楚说明测试的内容：
 
-```UpdateNameDoesntAllowCharacterAddingToNameIfNameIsTenOrMoreCharactersInLength```
+- ```UpdateNameDoesntAllowCharacterAddingToNameIfNameIsTenOrMoreCharactersInLength```
 
-```UpdateNameAllowsLettersToBeAddedToName```
+- ```UpdateNameAllowsLettersToBeAddedToName```
 
-```UpdateNameDoesntAllowNonLettersToBeAddedToName```
+- ```UpdateNameDoesntAllowNonLettersToBeAddedToName```
 
 #### 测试套件
 
@@ -90,7 +90,7 @@ public void UpdateNameWithCharacter(char: character)
 
 
 
-### 2. 启动游戏
+### 2. 运行游戏
 
 在 *Unity* 中打开 [Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids%20Starter) 项目，然后打开 *Assets / RW / Scenes* 中的 *Game* 场景。
 
@@ -102,7 +102,7 @@ public void UpdateNameWithCharacter(char: character)
 
 ![2](Pic/2.png)
 
-尝试玩一会儿，然后确保船被小行星击中以触发 *Game Over*s 事件。
+尝试玩一会儿，然后确保船被小行星击中以触发 *Game Over* 事件。
 
 ![3](Pic/3.png)
 
