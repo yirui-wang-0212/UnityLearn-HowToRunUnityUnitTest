@@ -4,27 +4,27 @@
 
 ## 说明
 
-本文使用Unity Editor自带的单元测试工具Unity Test Runner进行单元测试。
+- 本文使用Unity Editor自带的单元测试工具Unity Test Runner进行单元测试。
 
-本文主要是对[raywenderlich.com](https://www.raywenderlich.com/)中的[Unity Tutorials](https://www.raywenderlich.com/unity)教程[Introduction To Unity Unit Testing](https://www.raywenderlich.com/9454-introduction-to-unity-unit-testing)的中文翻译与补充。
+- 本文主要是对[raywenderlich.com](https://www.raywenderlich.com/)中的[Unity Tutorials](https://www.raywenderlich.com/unity)教程[Introduction To Unity Unit Testing](https://www.raywenderlich.com/9454-introduction-to-unity-unit-testing)的中文翻译与补充。
 
 
 
 ## 参考
 
-教程：[Introduction To Unity Unit Testing](https://www.raywenderlich.com/9454-introduction-to-unity-unit-testing)
+- 教程：[Introduction To Unity Unit Testing](https://www.raywenderlich.com/9454-introduction-to-unity-unit-testing)
 
-Unity官方用户手册：[Unity Test Runner](https://docs.unity3d.com/Manual/testing-editortestsrunner.html)
+- Unity官方用户手册：[Unity Test Runner](https://docs.unity3d.com/Manual/testing-editortestsrunner.html)
 
 
 
 ## 项目
 
-[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids%20Starter)为未添加测试的原始项目，供大家按照教程为项目添加测试。
+- [Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids%20Starter)为未添加测试的原始项目，供大家按照教程为项目添加测试。
 
-[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Final](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids%20Final)为按照教程添加测试后的项目。
+- [Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Final](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids%20Final)为按照教程添加测试后的项目。
 
-也可以参考本人在学习教程时创建的项目[Crashteroids](https://github.com/Charon0622/Crashteroids/tree/master/Crashteroids)，里面的测试代码附有较为详细的注释。
+- 也可以参考本人在学习教程时创建的项目[Crashteroids](https://github.com/Charon0622/Crashteroids/tree/master/Crashteroids)，里面的测试代码附有较为详细的注释。
 
 
 
