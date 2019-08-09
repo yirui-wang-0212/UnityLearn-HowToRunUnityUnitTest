@@ -20,9 +20,9 @@ Unity官方用户手册：[Unity Test Runner](https://docs.unity3d.com/Manual/te
 
 ## 项目
 
-[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids\ Starter)为未添加测试的原始项目，供大家按照教程为项目添加测试。
+[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids+Starter)为未添加测试的原始项目，供大家按照教程为项目添加测试。
 
-[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Final](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids Final)为按照教程添加测试后的项目。
+[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Final](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids+Final)为按照教程添加测试后的项目。
 
 也可以参考本人在学习教程时创建的项目[Crashteroids](https://github.com/Charon0622/Crashteroids/tree/master/Crashteroids)，里面的测试代码附有较为详细的注释。
 
