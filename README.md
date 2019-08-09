@@ -20,7 +20,7 @@ Unity官方用户手册：[Unity Test Runner](https://docs.unity3d.com/Manual/te
 
 ## 项目
 
-[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids Starter)为未添加测试的原始项目，供大家按照教程为项目添加测试。
+[Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Starter](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids\ Starter)为未添加测试的原始项目，供大家按照教程为项目添加测试。
 
 [Crashteroids](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids)下的[Crashteroids Final](https://github.com/Charon0622/HowToRunUnityUnitTest/tree/master/Crashteroids/Crashteroids Final)为按照教程添加测试后的项目。
 
@@ -77,7 +77,10 @@ public void UpdateNameWithCharacter(char: character)
 
 #### 测试套件
 
-一个**测试套件**包含一组相关的单元测试（如战斗单元测试）。如果测试套件中的任何单个测试失败，则整个测试套件将失败。
+一个**测试套件**包含一组相关的单元测试（如战斗模块单元测试）。如果测试套件中的任何单个测试失败，则整个测试套件将失败。
 
 ![TestSuite](Pic/TestSuite.png)
 
+### 3. 启动游戏
+
+打开
