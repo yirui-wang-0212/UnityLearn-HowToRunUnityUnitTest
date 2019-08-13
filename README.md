@@ -108,5 +108,31 @@ public void UpdateNameWithCharacter(char: character)
 
 
 
-### 3. Unity Test Runner 入门
+### 3. *Unity Test Runner* 入门
 
+*Unity Test Runner* 是 *Unity Editor* 工具，可以在 *Play Mode*（运行模式） 和 *Editor Mode* （编译器模式）下测试代码，也可以在目标平台上测试，例如 *Standalon* ，*Android* 或 *iOS* 。
+
+访问 *Unity Test Runner*，选择菜单栏中的 *Windows▸General▸Test Runner*。
+
+*Unity Test Runner* 使用集成了 *Unity* 的 *NUnit* 库，这是一个基于于 *.Net* 语言的开源单元测试库。有关 *NUnit* 的更多信息，请参阅 [*NUnit* 官方网站](http://www.nunit.org/)和 [*GitHub 上*](https://github.com/nunit/docs/wiki/NUnit-Documentation)的[*NUnit* 文档](https://github.com/nunit/docs/wiki/NUnit-Documentation)。
+
+[*UnityTestAttribute*](https://docs.unity3d.com/ScriptReference/TestTools.UnityTestAttribute.html) 是*Unity Test Runner*标准*NUnit*库的主要补充。这是一种单元测试，允许您从测试中跳过一个框架（允许后台任务完成）。使用`UnityTestAttribute`：
+
+- 在*Play Mode*下：`UnityTestAttribute`作为 [*coroutine*](https://docs.unity3d.com/ScriptReference/Coroutine.html)执行。
+- 在*Editor Mode*下：`UnityTestAttribute`在 [*EditorApplication.update*](https://docs.unity3d.com/ScriptReference/EditorApplication-update.html) 回调循环中执行。
+
+#### *Play Mode Test* 和 *Editor Mode Test*有什么区别？
+
+##### *Play Mode Test*
+
+测试脚本需要：
+
+- 已经初始化：```Awake```、```Start``` 等。
+- 测试运行时：```Update```、```FixedUpdate``` 等。
+- 物理。
+
+如：
+
+- 在访问这个对象之前是否已经初始化所有组件？
+- 这个循环是否会（在给定时间内）终止？
+- 将*bounciness*设置为*0.99*，球会在*X*秒后停止跳跃吗？
