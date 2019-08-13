@@ -206,5 +206,4 @@ public void UpdateNameWithCharacter(char: character)
 
 ![14](Pic/14.png)
 
-如果没有按照这些步骤操作，则无法在单元测试文件中引用游戏脚本。
-
+如果没有按照这些步骤操作，则无法在单元测试脚本中引用游戏脚本。
