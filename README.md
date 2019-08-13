@@ -281,7 +281,11 @@ public IEnumerator AsteroidsMoveDown()
 
 至此，第一个单元测试通过，该测试断言产生的小行星向下移动。
 
-#### 将测试添加到测试套件中：测试飞船撞到小行星后游戏结束
+
+
+### 5. 将测试添加到测试套件中
+
+#### 测试飞船撞到小行星后游戏结束
 
 ```c#
 [UnityTest]
@@ -313,7 +317,7 @@ public IEnumerator GameOverOccurOnAsteroidCollision()
 }
 ```
 
-##### 通过测试
+#### 通过测试
 
 查看 *Test Runner* 窗口，可以看到带有灰色圆圈的测试 *AsteroidsMoveDown*。
 
@@ -324,3 +328,232 @@ public IEnumerator GameOverOccurOnAsteroidCollision()
 绿色钩表明测试通过。
 
 ![18](Pic/18.png)
+
+#### *Set Up* 和 *Tear Down* 属性
+
+如上，在创建 *Game* 的 *GameObject* 以及引用Game脚本时存在一些重复代码：
+
+```c#
+GameObject gameGameObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+game = gameGameObject.GetComponent<Game>();
+```
+
+以及在 *Game* 的 *GameObject* 被销毁也存在重复代码：
+
+```c#
+Object.Destroy(game.gameObject);
+```
+
+这在测试中很常见。在运行单元测试时，实际上有两个阶段：*Set Up* 和 *Tear Down*。
+
+```Setup()```方法中的任何代码都将在该套件中的单元测试之前运行，并且```Teardown()```方法中的任何代码将在该套件中的单元测试之后运行。
+
+打开代码编辑器，将以下代码添加到 *TestSuite* 文件的顶部，即第一个 ```[UnityTest]``` 属性的上方：
+
+```c#
+[SetUp]
+public void Setup()
+{
+  	// Use "Resources/Prefabs/Game" to create an instance of the "Game(GameObject)".
+    GameObject gameGameObject = 
+        MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+  
+  	// Get "Game(Script)" as a component of "Game(GameObject)".
+    game = gameGameObject.GetComponent<Game>();
+}
+```
+
+该`SetUp`属性指定在运行每个测试之前调用此方法。
+
+再在该方法下面添加以下代码：
+
+```c#
+[TearDown]
+public void Teardown()
+{
+    Object.Destroy(game.gameObject);
+}
+```
+
+该`TearDown`属性指定在运行每个测试之后调用此方法。
+
+最后删除或注释掉两个单元测试中出现的重复代码，最终如下所示：
+
+```c#
+using UnityEngine;
+using UnityEngine.TestTools;
+using NUnit.Framework;
+using System.Collections;
+
+public class TestSuites
+{
+    private Game game;
+
+    [SetUp]
+    public void Setup()
+    {
+        // Use "Resources/Prefabs/Game" to create an instance of the "Game(GameObject)".
+        GameObject gameGameObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+
+        // Get "Game(Script)" as a component of "Game(GameObject)".
+        game = gameGameObject.GetComponent<Game>();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        Object.Destroy(game.gameObject);
+    }
+    
+    // This is an attribute. Attributes define special compiler behaviors. 
+    // It tells the Unity compiler that this is a unit test.
+    // This will make it appear in the Test Runner when you run your tests.
+    [UnityTest]
+    // Test the asteroids actually move down.
+    public IEnumerator AsteroidsMoveDown()
+    {
+        /* // Use "Resources/Prefabs/Game" to create an instance of the "Game(GameObject)".
+        GameObject gameGameObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+
+        // Get "Game(Script)" as a component of "Game(GameObject)".
+        game = gameGameObject.GetComponent<Game>(); */
+
+        // Get "Spawner(Script)" as a component of "Spawner(Gamebject)" in "Game(Script)" of "Game(GameObject)".
+        // Use SpawnAsteroid() in Spawn class to create an astroid.
+        // The astroid has Move method and be called in Update method.
+        GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+
+        // Keep track of the initial position.
+        float initialYPos = asteroid.transform.position.y;
+
+        // Add a time-step of 0.1 seconds.
+        yield return new WaitForSeconds(0.1f);
+
+        // This is the assertion step where you are asserting
+        // that the position of the asteroid is less than the initial position (which means it moved down).
+        Assert.Less(asteroid.transform.position.y, initialYPos);
+
+        /* // It’s always critical that you clean up (delete or reset) your code after a unit test so that when the next test runs there are no artifacts that can affect that test.
+        // Deleting the game object is all you have left to do, since for each test you’re creating a whole new game instance for the next test.
+        Object.Destroy(game.gameObject); */
+    }
+
+    
+    [UnityTest]
+    // Test game over when the ship crashes into an asteroid.
+    public IEnumerator GameOverOccurOnAsteroidCollision()
+    {
+        /* // Use "Resources/Prefabs/Game" to create an instance of the "Game(GameObject)".
+        GameObject gameGameObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+
+        // Get "Game(Script)" as a component of "Game(GameObject)".
+        game = gameGameObject.GetComponent<Game>(); */
+
+        // Get "Spawner(Script)" as a component of "Spawner(Gamebject)" in "Game(Script)" of "Game(GameObject)".
+        // Use SpawnAsteroid() in Spawn class to create an astroid.
+        // The astroid has Move method and be called in Update method.
+        GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+
+        // Set the asteroid to have the same position as the ship to make an asteroid and ship crash
+        asteroid.transform.position = game.GetShip().transform.position;
+
+        // Add a time-step to ensure the Physics engine Collision event
+        yield return new WaitForSeconds(0.1f);
+
+        // Check that the isGameOver flag in the Game script has been set to true
+        Assert.True(game.isGameOver);
+
+       /*  // Delete the "game(GameObject)"
+        Object.Destroy(game.gameObject); */
+    }
+```
+
+
+
+### 6. 添加其他测试
+
+#### 测试开始新游戏
+
+```c#
+[UnityTest]
+// Test when the player clicks New Game that the gameOver bool is not true
+public IEnumerator NewGameRestartGame()
+{
+    // Set the isGameOver to true
+    game.isGameOver = true;
+    // NewGame() will set this flag back to false.
+    game.NewGame();
+
+    // Assert that the isGameOver bool is false, which should be the case after a new game is called
+    Assert.False(game.isGameOver);
+
+    yield return null;
+}
+```
+
+#### 测试激光摧毁小行星
+
+```c#
+[UnityTest]
+// Test Lasers Destroy Asteroids
+public IEnumerator LaserDestroyAsteroid()
+{
+    // create an asteroid
+    GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+    // set the asteroid position
+    asteroid.transform.position = Vector3.zero;
+
+    // create a laser
+    GameObject laser = game.GetShip().SpawnLaser();
+    // set the laser position same as the asteroid
+    laser.transform.position = Vector3.zero;
+
+    // Add a time-step
+    yield return new WaitForSeconds(0.1f);
+
+    // Unity has a special Null class which is different from a “normal” Null class. 
+    // The NUnit framework assertion Assert.IsNull() will not work for Unity null checks.
+    // When checking for nulls in Unity, you must explicitly use the UnityEngine.Assertions.Assert, not the NUnit Assert.
+    UnityEngine.Assertions.Assert.IsNull(asteroid);
+}
+```
+
+#### 测试摧毁小行星后得分
+
+```c#
+[UnityTest]
+// Test that destroying asteroids rises the score
+public IEnumerator DestroyedAsteroidsRaisesScore()
+{
+    // create an asteroid
+    GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+    // set the asteroid position
+    asteroid.transform.position = Vector3.zero;
+
+    // create a laser
+    GameObject laser = game.GetShip().SpawnLaser();
+    // set the laser position same as the asteroid
+    laser.transform.position = Vector3.zero;
+
+    // Add a time-step
+    yield return new WaitForSeconds(0.1f);
+
+    Assert.AreEqual(game.score, 1);
+}
+```
+
+查看 *Test Runner* 窗口，并单击 *RunAll* 按钮运行测试。完成后显示整个测试套件中的所有测试通过。
+
+![19](Pic/19.png)
+
+
+
+#### 7. 结尾
+
+了哪些单元测试以及如何在Unity中编写它们后，可以考虑为 *Crashteroids* 编写更多的测试：
+
+- 开始新游戏时分数为0
+- 飞船的左右移动
+
+等等。
+
