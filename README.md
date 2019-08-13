@@ -207,3 +207,120 @@ public void UpdateNameWithCharacter(char: character)
 ![14](Pic/14.png)
 
 如果没有按照这些步骤操作，则无法在单元测试脚本中引用游戏脚本。
+
+
+
+### 4. 编写第一个单元测试
+
+在代码编辑器中打开 *TestSuite.cs* ，使用以下代码替换所有代码：
+
+```c#
+using UnityEngine;
+using UnityEngine.TestTools;
+using NUnit.Framework;
+using System.Collections;
+
+public class TestSuite
+{
+
+}
+```
+
+在这个小小的 *Crashteroids* 游戏中，也有很多可以编写的测试，以确保一切按预期工作。本教程只关注命中检测和核心游戏机制的几个关键领域。然而，当在生产级产品上编写单元测试时，确实需要花时间考虑测试代码所有区域所需的所有边缘情况。
+
+#### 测试小行星向下移动
+
+```c#
+private Game game;
+
+// This is an attribute. Attributes define special compiler behaviors. 
+// It tells the Unity compiler that this is a unit test.
+// This will make it appear in the Test Runner when you run your tests.
+[UnityTest]
+// Test the asteroids actually move down.
+public IEnumerator AsteroidsMoveDown()
+{
+    // Use "Resources/Prefabs/Game" to create an instance of the "Game(GameObject)".
+    GameObject gameGameObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+  
+  	// Get "Game(Script)" as a component of "Game(GameObject)".
+    game = gameGameObject.GetComponent<Game>();
+  
+    // Get "Spawner(Script)" as a component of "Spawner(Gamebject)" in "Game(Script)" of "Game(GameObject)".
+    // Use SpawnAsteroid() in Spawn class to create an astroid.
+    // The astroid has Move method and be called in Update method.
+    GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+  
+    // Keep track of the initial position.
+    float initialYPos = asteroid.transform.position.y;
+  	
+    // Add a time-step of 0.1 seconds.
+    yield return new WaitForSeconds(0.1f);
+  
+    // This is the assertion step where you are asserting
+    // that the position of the asteroid is less than the initial position (which means it moved down).
+    Assert.Less(asteroid.transform.position.y, initialYPos);
+  
+    // It’s always critical that you clean up (delete or reset) your code after a unit test so that when the next test runs there are no artifacts that can affect that test.
+    // Deleting the game object is all you have left to do, since for each test you’re creating a whole new game instance for the next test.
+    Object.Destroy(game.gameObject);
+}
+```
+
+##### 通过测试
+
+在 *Test Runner* 窗口中，展开 *UnityUnitTestingTutorial* 的所有箭头，可以看到带有灰色圆圈的测试 *AsteroidsMoveDown*。
+
+![15](Pic/15.png)
+
+灰色圆圈表示测试尚未运行。当测试运行并通过时，它将显示绿色钩。如果测试失败，它将显示红色×。
+
+单击 *RunAll* 按钮运行测试。编辑器将创建一个临时场景并运行测试。完成后应该显示测试通过。
+
+![16](Pic/16.png)
+
+至此，第一个单元测试通过，该测试断言产生的小行星向下移动。
+
+#### 将测试添加到测试套件中：测试飞船撞到小行星后游戏结束
+
+```c#
+[UnityTest]
+// Test game over when the ship crashes into an asteroid.
+public IEnumerator GameOverOccurOnAsteroidCollision()
+{
+    // Use "Resources/Prefabs/Game" to create an instance of the "Game(GameObject)".
+    GameObject gameGameObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Game"));
+
+    // Get "Game(Script)" as a component of "Game(GameObject)".
+    game = gameGameObject.GetComponent<Game>();
+
+    // Get "Spawner(Script)" as a component of "Spawner(Gamebject)" in "Game(Script)" of "Game(GameObject)".
+    // Use SpawnAsteroid() in Spawn class to create an astroid.
+    // The astroid has Move method and be called in Update method.
+    GameObject asteroid = game.GetSpawner().SpawnAsteroid();
+
+    // Set the asteroid to have the same position as the ship to make an asteroid and ship crash
+    asteroid.transform.position = game.GetShip().transform.position;
+
+    // Add a time-step to ensure the Physics engine Collision event
+    yield return new WaitForSeconds(0.1f);
+
+    // Check that the isGameOver flag in the Game script has been set to true
+    Assert.True(game.isGameOver);
+
+    // Delete the "game(GameObject)"
+    Object.Destroy(game.gameObject);
+}
+```
+
+##### 通过测试
+
+查看 *Test Runner* 窗口，可以看到带有灰色圆圈的测试 *AsteroidsMoveDown*。
+
+![17](Pic/17.png)
+
+这一次，只需要运行此测试而不需要运行整个测试套件。单击 *GameOverOccursOnAsteroidCollision*，然后单击*Run Selected* 按钮。
+
+绿色钩表明测试通过。
+
+![18](Pic/18.png)
