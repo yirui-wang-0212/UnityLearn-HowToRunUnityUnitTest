@@ -110,9 +110,15 @@ public void UpdateNameWithCharacter(char: character)
 
 ### 3. *Unity Test Runner* 入门
 
-*Unity Test Runner* 是 *Unity Editor* 工具，可以在 *Play Mode*（运行模式） 和 *Editor Mode* （编译器模式）下测试代码，也可以在目标平台上测试，例如 *Standalon* ，*Android* 或 *iOS* 。
+*Unity Test Runner* 是 *Unity Editor* 工具，可以在 *PlayMode*（运行模式） 和 *EditMode* （编辑模式）下测试代码，也可以在目标平台上测试，例如 *Standalon* ，*Android* 或 *iOS* 。
 
 访问 *Unity Test Runner*，选择菜单栏中的 *Windows▸General▸Test Runner*。
+
+![4](Pic/4.png)
+
+调出 *Unity Test Runner* 窗口。
+
+![5](Pic/5.png)
 
 *Unity Test Runner* 使用集成了 *Unity* 的 *NUnit* 库，这是一个基于于 *.Net* 语言的开源单元测试库。有关 *NUnit* 的更多信息，请参阅 [*NUnit* 官方网站](http://www.nunit.org/)和 [*GitHub 上*](https://github.com/nunit/docs/wiki/NUnit-Documentation)的[*NUnit* 文档](https://github.com/nunit/docs/wiki/NUnit-Documentation)。
 
@@ -121,18 +127,84 @@ public void UpdateNameWithCharacter(char: character)
 - 在*Play Mode*下：`UnityTestAttribute`作为 [*coroutine*](https://docs.unity3d.com/ScriptReference/Coroutine.html)执行。
 - 在*Editor Mode*下：`UnityTestAttribute`在 [*EditorApplication.update*](https://docs.unity3d.com/ScriptReference/EditorApplication-update.html) 回调循环中执行。
 
-#### *Play Mode Test* 和 *Editor Mode Test*有什么区别？
+#### *PlayMode* 和 *EditMode*有什么区别？
 
-##### *Play Mode Test*
+##### *PlayMode*
 
 测试脚本需要：
 
-- 已经初始化：```Awake```、```Start``` 等。
-- 测试运行时：```Update```、```FixedUpdate``` 等。
-- 物理。
+- 已经初始化：```Awake```、```Start``` 等
+- 测试运行时：```Update```、```FixedUpdate``` 等
+- 物理
 
 如：
 
 - 在访问这个对象之前是否已经初始化所有组件？
 - 这个循环是否会（在给定时间内）终止？
-- 将*bounciness*设置为*0.99*，球会在*X*秒后停止跳跃吗？
+- 将 *bounciness* 设置为 *0.99*，球会在 *X* 秒后停止跳跃吗？
+
+##### *EditMode*
+
+- 不需要使用 *PlayMode* （```Awake```、```Start``` 、```Update```、```FixedUpdate```、物理等）
+- 明确需要在进入 *PlayMode* 之前进行的测试
+
+如：
+
+- 只有一个 *Camera* 在场景中吗？
+- 对于 *mixed reality*：在进入 *PlayMode* 之前， *Camera* 是否处于 *0, 0, 0* 位置？
+- *Camera* 是否有一个 *PhysicsRaycaster* 组件使得接口 *IPointerXxx* 工作？
+
+对于一些使用 *EditMode* 的 *test* 来说，需要在进入 *PlayMode* 之前进行的测试，而其余 *EditorMode*下的 *test* 只是在这个模式下更快，因为在测试一些特定的东西之前不必初始化场景中的所有内容。
+
+在本教程中只涉及 *PlayMode* 测试。
+
+#### 设置测试文件夹
+
+为了运行测试，首先需要创建一个测试文件夹来保存测试。
+
+选择 *RW* 文件夹，在文件夹下面创建一个文件夹，并命名为 *Tests* 。
+
+![6](Pic/6.png)
+
+点击 *Test Runner* 窗口下的 *PlayMode* *Tab*，点击 *Create PlayMode Test Assembly Folder*，将文件夹命名为 *PlayModeTests*。
+
+![7](Pic/7.png)
+
+进入 *PlayModeTests* 文件夹，发现已经创建了一个名为 *PlayModeTests.asmdef* 的 *Assembly Definition* 文件。这是一个程序集定义文件，用于告诉 *Unity* 测试文件所在的位置。
+
+如果出现 *Unity* 无法找到测试文件的情况，则应该仔细检查文件夹是否包含程序集定义文件。
+
+![8](Pic/8.png)
+
+#### 创建测试套件
+
+测试套件是逻辑划分测试的地方，将测试代码划分为不同的逻辑套件（例如，物理测试套件和战斗的单独测试套件）。对于本教程，只需要一个测试套件。
+
+点击 *Test Runner* 窗口下 *Create Test Script in current Folder*，在当前文件夹下面创建一个测试脚本，命名为 *TestSuite*。
+
+![9](Pic/9.png)
+
+#### 设置 *Assembly Definition*
+
+为确保测试代码可以访问游戏脚本，需要创建游戏脚本程序集定义文件并在测试程序集定义文件中设置引用。
+
+选择 *Scripts* 文件夹，右键选择 *Create ▸ Assembly Definition*，将文件命名为 *GameAssembly*。
+
+![10](Pic/10.png)
+
+![11](Pic/11.png)
+
+选择 *Tests / PlayMode / PlayModeTests* 测试程序集定义文件，在 *Inspector* 窗口中，单击 *Assembly Definition References* 下面的加号。
+
+![12](Pic/12.png)
+
+将 *Scripts* 文件夹下的 *GameAssembly* 拖到 *None(Assembly Definition Asset)* 上。
+
+![13](Pic/13.png)
+
+单击 *Inspector* 窗口中最下方的 *Apply* 按钮以保存这些更改。
+
+![14](Pic/14.png)
+
+如果没有按照这些步骤操作，则无法在单元测试文件中引用游戏脚本。
+
