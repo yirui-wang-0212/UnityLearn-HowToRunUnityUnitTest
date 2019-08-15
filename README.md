@@ -550,7 +550,7 @@ public IEnumerator DestroyedAsteroidsRaisesScore()
 
 #### 7. 结尾
 
-了哪些单元测试以及如何在Unity中编写它们后，可以考虑为 *Crashteroids* 编写更多的测试：
+了解单元测试以及如何在Unity中编写它们后，可以考虑为 *Crashteroids* 编写更多的测试：
 
 - 开始新游戏时分数为0
 - 飞船的左右移动
